@@ -1,0 +1,80 @@
+/**
+ * jade 模板调用的函数集合
+ * @module
+ * @author vega <vegawong@126.com>
+**/
+
+import { file } from './fileHelper';
+import path from 'path';
+import fs from 'fs';
+import moment from 'moment';
+
+const envName = process.env.envName || 'dev';
+
+
+// 获取项目webpack生成的json映射文件
+const getAssetJson = function(fileName) {
+  let cwd = process.cwd();
+  let parts = cwd.split(path.sep);
+  do {
+    let loc = parts.join(path.sep);
+    if (!loc) break;
+    console.log(fileName);
+    let jsonFile = path.join(loc, fileName);
+    if (fs.existsSync(jsonFile)) {
+      return jsonFile;
+    }
+    parts.pop();
+  } while (parts.length);
+  throw new Error(`${fileName} Not Found in the project directory`);
+}
+
+
+class PageHelper {
+  constructor(options) {
+    this.options = Object.assign({
+      jsonFileName: 'staticAsset.json'
+    }, options || {});
+    let jsonFile = getAssetJson(this.options.jsonFileName);
+    this.moduleState = file.readJSON(jsonFile)
+  }
+
+  setScript(moduleName) {
+    if (moduleName && this.moduleState[moduleName] && this.moduleState[moduleName]['js']) {
+      return this.moduleState[moduleName]['js'];
+    } else {
+      return '';
+    }
+  }
+
+  setCss(moduleName) {
+    if (moduleName && this.moduleState[moduleName] && this.moduleState[moduleName]['css']) {
+      return this.moduleState[moduleName]['css'];
+    } else {
+      return '';
+    }
+  }
+
+  isToday(date) {
+      try {
+          return mement().isSame(date, 'day');
+      } catch (e) {
+          return false;
+      }
+  }
+  formatDate (dateString, format) {
+      //设置语言
+      moment.locale('zh-cn');
+      if (isNaN(Number(dateString))) {
+        return moment(dateString).format(format);
+      } else {
+        return moment(Number(dateString)).format(format);
+      }
+  }
+  getweek (dateString) {
+    return moment(dateString).format('dddd').replace(/星期/, '周');
+  }
+
+}
+
+export default PageHelper;

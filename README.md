@@ -18,9 +18,13 @@ console.log(err.message);
 
 
 - ApiRequestError
+
 - DBError
+
 - PageError
+
   it has the `status` property which stands for httpStatus, the same as http status code, default `500`
+
   ```javascript
   var err = new PageError('err message', 404);
   console.log(err.staus);
@@ -28,6 +32,7 @@ console.log(err.message);
   // 404
   // err message
   ```
+
 - CodeException
 
 #### fileHelper

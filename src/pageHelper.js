@@ -71,6 +71,15 @@ class PageHelper {
         return moment(Number(dateString)).format(format);
       }
   }
+  fromNow(dateString) {
+    //设置语言
+    moment.locale('zh-cn');
+    if (isNaN(Number(dateString))) {
+      return moment(dateString).fromNow();
+    } else {
+      return moment(Number(dateString)).fromNow();
+    }
+  }
   getweek (dateString) {
     return moment(dateString).format('dddd').replace(/星期/, '周');
   }

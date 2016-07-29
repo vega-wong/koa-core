@@ -19,7 +19,6 @@ const getAssetJson = function(fileName) {
   do {
     let loc = parts.join(path.sep);
     if (!loc) break;
-    console.log(fileName);
     let jsonFile = path.join(loc, fileName);
     if (fs.existsSync(jsonFile)) {
       return jsonFile;
@@ -33,10 +32,15 @@ const getAssetJson = function(fileName) {
 class PageHelper {
   constructor(options) {
     this.options = Object.assign({
-      jsonFileName: 'staticAsset.json'
+      jsonFileName: 'staticAsset.json',
+      imgAssetsFileName: null
     }, options || {});
     let jsonFile = getAssetJson(this.options.jsonFileName);
     this.moduleState = file.readJSON(jsonFile)
+    if (this.options.imgAssetsFileName) {
+      let imgJsonFile = getAssetJson(this.options.imgAssetsFileName);
+      this.imgModuleState = file.readJSON(imgJsonFile);
+    }
   }
 
   setScript(moduleName) {
@@ -53,6 +57,16 @@ class PageHelper {
     } else {
       return '';
     }
+  }
+
+  setImgSrc(srcPath) {
+    // console.log(this.imgModuleState,srcPath);
+    for(let v of this.imgModuleState) {
+      if (srcPath && v.name === srcPath) {
+        return v.assets;
+      }
+    }
+    return '';
   }
 
   isToday(date) {

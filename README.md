@@ -186,6 +186,12 @@ the helper for view engin
 
   get js url from the webpack asset.json file by moduleName
 
+- ##### setImgSrc(srcPath)
+
+  set the webpack build img path
+
+  usage with `img-assets-webpack-plugin`
+
 - ##### isToday(date)
 
   ...
@@ -193,6 +199,13 @@ the helper for view engin
 - ##### formatDate (dateString, format)
 
   ...
+
+- ##### fromNow (dataString)
+
+  ```javascript
+  // 1 天前
+  // 4 小时前
+  ```
 
 - ##### getweek (dateString)
 

@@ -82,7 +82,7 @@ class PageHelper {
       if (isNaN(Number(dateString))) {
         return moment(dateString).format(format);
       } else {
-        return moment(Number(dateString)).format(format);
+        return moment.unix(Number(dateString)).format(format);
       }
   }
   fromNow(dateString) {
@@ -91,7 +91,7 @@ class PageHelper {
     if (isNaN(Number(dateString))) {
       return moment(dateString).fromNow();
     } else {
-      return moment(Number(dateString)).fromNow();
+      return moment.unix(Number(dateString)).fromNow();
     }
   }
   getweek (dateString) {

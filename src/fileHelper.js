@@ -37,12 +37,12 @@ const file = {
   },
 
   readJSON(uri, def) {
-    let txt = file.read(uri, false);
-    if (!txt) {
+    if(fs.existsSync(uri)) {
+      let json = require(uri);
+      return json;
+    } else {
       return def;
-    }
-    txt = String(txt).replace(/[^:]\/\/.*"?[\r\n\r]/g, '');
-    return JSON.parse(txt);
+    }    
   },
 
   mkdirSync(dirname) {

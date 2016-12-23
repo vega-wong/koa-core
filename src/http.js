@@ -16,6 +16,7 @@ import { ApiRequestError, CodeException } from './error';
 const send = (opt) => {
   return new Promise((resolve, reject) => {
     r(opt, (err, response, body) => {
+      const url = opt.url;
       if (err) {
         reject(new ApiRequestError(`request [${url}] error: [${err}]`));
       } else {
